@@ -5,6 +5,10 @@ const userSchema= mongoose.Schema({
     name:{
         type:String,
         required:true
+    }, 
+    apellido:{
+        type:String,
+        required:true
     },
     email:{
         type:String,
@@ -14,14 +18,6 @@ const userSchema= mongoose.Schema({
         type:String,
         required:true
     },
-    direccion:{
-        type:String,
-        required:true
-    },
-    genero:{
-        type:String,
-        required:true
-    }
 })
 
 const User =mongoose.model("user",userSchema)
@@ -33,8 +29,7 @@ const validator = (data)=>{
         .length(10)
         .regex(/^\d+$/).message({"string.pattern.base":"Please enter valid password "})
         .require(),
-        direccion: Joi.string().required(),
-        genero: Joi.string().required(),
+        apellido: Joi.string().required(),
     })
     return schema.validate(data)
 };
