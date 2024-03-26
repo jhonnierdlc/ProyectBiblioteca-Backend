@@ -10,7 +10,7 @@ const employeeSchema= mongoose.Schema({
         type:String,
         required:true
     },
-    mobile:{
+    password:{
         type:String,
         required:true
     }
@@ -22,10 +22,7 @@ const validator = (data)=>{
     const Schema= Joi.object({
         name: Joi.string().required(),
         email: Joi.string().email().required(),
-        mobile: Joi.string()
-        .length(10)
-        .regex(/^\d+$/).message({"string.pattern.base":"Please enter valid mobile number"})
-        .require()
+        password: Joi.string().password().require(),
     })
     return schema.validate(data)
 };
