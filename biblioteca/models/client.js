@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 const Joi =require('joi');
 
-const userSchema= mongoose.Schema({
+const clientSchema= mongoose.Schema({
     name:{
         type:String,
         required:true
@@ -30,7 +30,7 @@ const userSchema= mongoose.Schema({
 })
 
 
-const User =mongoose.model("user",userSchema)
+const Client =mongoose.model("client",clientSchema)
 const validator = (data)=>{
     const Schema= Joi.object({
         name: Joi.string().required(),
@@ -48,4 +48,4 @@ const validator = (data)=>{
     })
     return schema.validate(data)
 };
-module.exports={User, validator};
+module.exports={Client, validator};
