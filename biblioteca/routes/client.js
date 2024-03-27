@@ -1,13 +1,13 @@
 const express = require('express');
 const router =express.Router();
-const {Employees, validator, User}=require('../models/client');
+const {Client,validator}=require('../models/client');
 const validate =require('../middleware/validate');
 const isValidObjectId=require('../middleware/isValidObjectId')
 const asyncHandler=require('../middleware/asyncHandler')
 
 router.post("/", validate(validator),
     asyncHandler(async(req,res)=>{
-        await User(req.body).save();
+        await Client(req.body).save();
         res.status(200).send("user created sucessfully")
     })
 );
@@ -15,16 +15,16 @@ router.post("/", validate(validator),
 router.get(
     "/",
     asyncHandler(async(req,res)=>{
-        const users =await User.find();
-        res.send(users)
+        const clients =await User.find();
+        res.send(clients)
     })
 )
 
 router.get(
     "/:id",
     isValidObjectId(async(req,res)=>{
-        const users =await User.findById(req.params.id);
-        res.send(users)
+        const clients =await Client.findById(req.params.id);
+        res.send(clients)
     })
 )
 
@@ -43,7 +43,7 @@ router.delete(
     "/",
     [isValidObjectId, validate(validator)],
     asyncHandler(async(req,res)=>{
-         await User.findByIdAndDelete({_id:req.params.id}, req.body)
+         await Client.findByIdAndDelete({_id:req.params.id}, req.body)
          res.status(200).send("users deleted sucessfully")
         
     })
