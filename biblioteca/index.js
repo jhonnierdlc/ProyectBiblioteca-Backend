@@ -5,7 +5,7 @@ const cors = require ('cors')
 const connection =require("./db")
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
-const cliente = require("./routes/client")
+
 //database
 connection()
 
