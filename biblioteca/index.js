@@ -5,7 +5,7 @@ const cors = require ('cors')
 const connection =require("./db")
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
-
+const clientRoutes=require("./routes/client")
 //database
 connection()
 
@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(cors());
 //router
 
+app.use("/api/client",clientRoutes)
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 //listenin on port

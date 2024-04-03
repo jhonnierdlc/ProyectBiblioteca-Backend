@@ -1,5 +1,5 @@
 
-const asyncHandler = (fn)=> async (...args)=>{
+const asyncHandler = (fn) => async (...args)=>{
     try{
         await fn(...args);
     }catch (error){

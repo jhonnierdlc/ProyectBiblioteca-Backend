@@ -1,51 +1,40 @@
 const mongoose=require('mongoose');
 const Joi =require('joi');
 
+
 const clientSchema= mongoose.Schema({
+    cedula:{
+        type:String,
+        required:true
+
+    },
     name:{
         type:String,
         required:true
 
     },
-    email:{
+    edad:{
         type:String,
         required:true
+
     },
-    password:{
+    sexo:{
         type:String,
         required:true
-    },
-    direccion:{
-        type:String,
-        required:true
-    }, 
-    cc:{
-        type:Number,
-        required:true
-    }, 
-    cel:{
-        type:Number,
-        required:true
-    },
+    }
+
+   
 })
 
 
 const Client =mongoose.model("client",clientSchema)
 const validator = (data)=>{
     const Schema= Joi.object({
+        cedula: Joi.string().required(),
         name: Joi.string().required(),
-        email: Joi.string().email().required(),
-        password: Joi.string().password().required(),
-        direccion: Joi.string().required(),
-        cc: Joi.string()
-        .length(10)
-        .regex(/^\d+$/).message({"string.pattern.base":"Please enter valid cc "})
-        .require(),
-        cel: Joi.string()
-        .length(10)
-        .regex(/^\d+$/).message({"string.pattern.base":"Please enter valid celular "})
-        .require(),
+        edad: Joi.string().required(),
+        sexo: Joi.string().required(),
     })
-    return schema.validate(data)
+    return Schema.validate(data)
 };
 module.exports={Client, validator};
