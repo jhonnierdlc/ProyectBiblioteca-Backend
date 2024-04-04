@@ -1,51 +1,57 @@
 const express = require('express');
-const router =express.Router();
-const {Client,validator}=require('../models/client');
-const validate =require('../middleware/validate');
-const isValidObjectId=require('../middleware/isValidObjectId');
-const asyncHandler = require('../middleware/asyncHandler')
+const router = express.Router();
+const {Cliente, validator} = require('../models/client');
+const validate = require('../middleware/validate');
+const isValidObjectId = require('../middleware/IsValidObjectId');
+const asyncHandler = require("../middleware/asyncHandler");
 
-router.post("/", validate(validator),
-    asyncHandler(async(req,res)=>{
-        await Client(req.body).save();
-        res.status(200).send("user created sucessfully")
-    })
+//Crear Cliente
+router.post("/",
+ validate(validator), 
+ asyncHandler(async(req,res)=>{
+    await Cliente(req.body).save();
+    res.status(200).send("Cliente Creado Exitosamente");
+ })
 );
 
-router.get(
-    "/",
-    asyncHandler(async(req,res)=>{
-        const clients =await Client.find();
-        res.send(clients)
-    })
+//Obtener Cliente
+router.get("/",
+asyncHandler(async(req,res) => {
+    const cliente = await Cliente.find();
+    res.send(cliente)
+})
 )
 
-router.get(
-    "/:id",
-    isValidObjectId(async(req,res)=>{
-        const clients =await Client.findById(req.params.id);
-        res.send(clients)
-    })
+//Obtener Cliente con ID
+router.get("/:id",
+isValidObjectId,
+asyncHandler(async (req, res) => {
+    const cliente = await Cliente.findById(req.params.id);
+    res.send(cliente);
+})
 )
 
+//Editar Cliente con ID
 
 router.put(
-    "/",
+    "/:id",
     [isValidObjectId, validate(validator)],
-    asyncHandler(async(req,res)=>{
-         await Client.findByIdAndUpdate({_id:req.params.id}, req.body)
-         res.status(200).send("user update sucessfully")
-        
+    asyncHandler(async (req,res) =>{
+        await Cliente.findByIdAndUpdate({_id:req.params.id}, req.body);
+        res.status(200).send("Cliente Editado Correctamente")
     })
 )
 
+//Eliminar Clientes
+
 router.delete(
-    "/",
-    [isValidObjectId, validate(validator)],
-    asyncHandler(async(req,res)=>{
-         await Client.findByIdAndDelete({_id:req.params.id}, req.body)
-         res.status(200).send("users deleted sucessfully")
-        
+    "/:id",
+    isValidObjectId,
+    asyncHandler(async (req,res) => {
+        await Cliente.findByIdAndDelete(req.params.id);
+        res.status(200).send("Cliente Elimindo Correctamente")
     })
 )
-module.exports=router;
+
+
+module.exports = router;

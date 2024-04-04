@@ -1,5 +1,5 @@
 
-const asyncHandler = (fn) => async (...args)=>{
+const asyncHandler = (fn) => async (...args) => {
     try{
         await fn(...args);
     }catch (error){
@@ -7,4 +7,4 @@ const asyncHandler = (fn) => async (...args)=>{
     }
 }
 
-module.exports =asyncHandler;
+module.exports = asyncHandler;
