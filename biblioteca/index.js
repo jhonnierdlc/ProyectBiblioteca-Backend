@@ -5,7 +5,8 @@ const cors = require ('cors')
 const connection =require("./db")
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
-const clientRoutes=require("./routes/client")
+const clientRoutes=require("./routes/client");
+const rutalibro=require("./routes/libro");
 //database
 connection()
 
@@ -19,6 +20,7 @@ app.use(cors());
 app.use("/api/client",clientRoutes)
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use('/api/libro', rutalibro);
 //listenin on port
 
 const port = process.env.PORT || 8080;
