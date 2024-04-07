@@ -12,29 +12,11 @@ router.post("/",
  })
 );
 
+router.get("/",
+asyncHandler(async(req,res) => {
+    const libro = await ModeloLibro.find();
+    res.send(libro)
+})
+)
+
 module.exports = router;
-// router.post('/agregarlibro',(req,res)=>{
-//     const nuevolibro = new ModeloLibro({
-//         isbn: req.body.isbn,
-//         titulo: req.body.titulo,
-//         descripcion: req.body.descripcion,
-//         portada: req.body.portada,
-//         autor: req.body.autor,
-//         idlibro: req.body.idlibro
-//     })
-    
-//     /* nuevolibro.save(function(err){
-//         if(!err){
-//             res.send('Libro agregado')
-//         }else{
-//             res.send(err)
-//         }
-//     }) */
-    
-//     nuevolibro.save().then(function(err){
-//         res.send('Libro agregado')
-//     })
-//     .catch(function(err){
-//         res.send(err)
-//     })
-// })
