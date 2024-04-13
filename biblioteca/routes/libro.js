@@ -20,6 +20,14 @@ asyncHandler(async(req,res) => {
 })
 )
 
+router.get("/:id",
+isValidObjectId,
+asyncHandler(async (req, res) => {
+    const libro = await ModeloLibro.findById(req.params.id);
+    res.send(libro);
+})
+)
+
 //Editar
 router.put(
     "/:id",
