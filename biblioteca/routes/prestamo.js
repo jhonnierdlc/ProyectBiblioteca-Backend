@@ -4,14 +4,37 @@ const {ModeloPrestamo, validator } = require('../models/prestamo');
 const validate = require('../middleware/validate');
 const asyncHandler = require("../middleware/asyncHandler");
 const isValidObjectId = require('../middleware/IsValidObjectId');
+const clienteConsulta=require('../routes/client');
+const libroConsulta=require('../routes/libro')
 
-router.post("/",
- validate(validator), 
- asyncHandler(async(req,res)=>{
-    await ModeloPrestamo(req.body).save();
-    res.status(200).send("prestamo Creado Exitosamente");
- })
+router.post("/", 
+  validate(validator), 
+  asyncHandler(async (req, res) => {
+    // Verificar si el cliente existe
+    const cliente = await Cliente.findById(req.body.clienteId);
+    if (!cliente) {
+      return res.status(400).send("El cliente especificado no existe");
+    }
+
+    // Verificar si el libro existe
+    const libro = await Libro.findById(req.body.libroId);
+    if (!libro) {
+      return res.status(400).send("El libro especificado no existe");
+    }
+
+    // Crear el préstamo
+    const nuevoPrestamo = new Prestamo({
+      cliente: cliente._id,
+      libro: libro._id,
+      fecha_inicio: req.body.fecha_inicio,
+      fecha_devolucion: req.body.fecha_devolucion
+    });
+
+    await nuevoPrestamo.save();
+    res.status(200).send("Préstamo creado exitosamente");
+  })
 );
+
 
 router.get("/",
 asyncHandler(async(req,res) => {
@@ -47,5 +70,7 @@ router.delete(
         res.status(200).send("prestamo Eliminado Correctamente")
     })
 )
+
+
 
 module.exports = router;

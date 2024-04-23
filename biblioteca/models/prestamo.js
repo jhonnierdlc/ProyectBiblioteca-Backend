@@ -3,8 +3,8 @@ const Joi = require("joi");
 
 
 const prestamoSchema = new mongoose.Schema({
-  cedula: { type: String, required: true },
-  isbn: { type: String, required: true },
+  cliente: { type: mongoose.Schema.Types.ObjectId, ref: 'Cliente', required: true },
+  libro: { type: mongoose.Schema.Types.ObjectId, ref: 'Libro', required: true },
   fecha_inicio: { type: Date, required: true },
   fecha_devolucion: { type: Date }
 });
@@ -21,15 +21,6 @@ const validatePrestamo = (data) => {
     return schema.validate(data);
 };
 const realizarPrestamo = async (clienteId, libroId) => {
-    const clienteExistente = await Cliente.findById(clienteId);
-    if (!clienteExistente) {
-        throw new Error('El cliente no existe');
-    }
-    const libroExistente = await ModeloLibro.findById(libroId);
-    if (!libroExistente) {
-        throw new Error('El libro no existe');
-    }
-
     const prestamo = new Prestamo({
         cliente: clienteId,
         libro: libroId
