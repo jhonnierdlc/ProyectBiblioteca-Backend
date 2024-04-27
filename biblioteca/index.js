@@ -7,6 +7,7 @@ const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const clientRoutes=require("./routes/client");
 const rutalibro=require("./routes/libro");
+const rutaprestamo=require("./routes/prestamo");
 //database
 connection()
 
@@ -21,6 +22,7 @@ app.use("/api/client",clientRoutes)
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use('/api/libro', rutalibro);
+app.use('/api/prestamo', rutaprestamo);
 //listenin on port
 
 const port = process.env.PORT || 8080;

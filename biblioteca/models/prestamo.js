@@ -1,32 +1,26 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-
 const prestamoSchema = new mongoose.Schema({
-  cliente: { type: mongoose.Schema.Types.ObjectId, ref: 'Cliente', required: true },
-  libro: { type: mongoose.Schema.Types.ObjectId, ref: 'Libro', required: true },
+  cedula: { type: String, required: true },
+  nombre: { type: String, required: true },
+  celular: { type: String, required: true },
+  libro: { type: Object, required: true },
   fecha_inicio: { type: Date, required: true },
-  fecha_devolucion: { type: Date }
+  fecha_devolucion: { type: Date, required: true }
 });
 
 const Prestamo = mongoose.model("Prestamo", prestamoSchema);
 
 const validatePrestamo = (data) => {
     const schema = Joi.object({
-        cedula: { type: String, required: true },
-        isbn: { type: String, required: true },
-        fecha_prestamo: Joi.date().required(),
-        fecha_devolucion: Joi.date()
+        cedula: Joi.string().required(),
+        nombre: Joi.string().required(),
+        celular: Joi.string().required(),
+        fecha_inicio: Joi.date().required(),
+        fecha_devolucion: Joi.date().required()  // Ajusta la validación según tus necesidades
     });
     return schema.validate(data);
 };
-const realizarPrestamo = async (clienteId, libroId) => {
-    const prestamo = new Prestamo({
-        cliente: clienteId,
-        libro: libroId
-    });
-    await prestamo.save();
-    return prestamo;
-};
 
-module.exports = { Prestamo, validatePrestamo, realizarPrestamo };
+module.exports = { Prestamo, validatePrestamo };
