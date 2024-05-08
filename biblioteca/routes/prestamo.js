@@ -3,9 +3,10 @@ const router = express.Router();
 const { Prestamo, validatePrestamo } = require('../models/prestamo');
 const asyncHandler = require("../middleware/asyncHandler");
 const isValidObjectId = require('../middleware/IsValidObjectId');
-const axios = require('axios'); // Importa axios para realizar solicitudes HTTP
+const axios = require('axios'); 
 
-router.post("/", async (req, res) => {
+router.post("/", 
+  async (req, res) => {
   try {
     const libroId = req.body.libroId;
 
@@ -35,6 +36,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Agrega tus otras rutas aquí...
+
 
 module.exports = router;

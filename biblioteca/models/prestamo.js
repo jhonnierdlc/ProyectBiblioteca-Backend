@@ -18,7 +18,7 @@ const validatePrestamo = (data) => {
         nombre: Joi.string().required(),
         celular: Joi.string().required(),
         fecha_inicio: Joi.date().required(),
-        fecha_devolucion: Joi.date().required()  // Ajusta la validación según tus necesidades
+        fecha_devolucion: Joi.date().required()  
     });
     return schema.validate(data);
 };
