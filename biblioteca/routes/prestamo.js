@@ -5,8 +5,7 @@ const asyncHandler = require("../middleware/asyncHandler");
 const isValidObjectId = require('../middleware/IsValidObjectId');
 const axios = require('axios'); 
 
-router.post("/", 
-  async (req, res) => {
+router.post("/", asyncHandler(async (req, res) => {
   try {
     const libroId = req.body.libroId;
 
@@ -18,13 +17,20 @@ router.post("/",
       return res.status(400).send("El libro especificado no existe");
     }
 
+    // Obtiene la fecha actual
+    const fechaInicio = new Date();
+
+    // Calcula la fecha de devolución sumando 7 días a la fecha de inicio
+    const fechaDevolucion = new Date();
+    fechaDevolucion.setDate(fechaDevolucion.getDate() + 7);
+
     const nuevoPrestamo = new Prestamo({
       cedula: req.body.cedula,
       nombre: req.body.nombre,
       celular: req.body.celular,
-      libro: libro, // Guarda el objeto completo del libro en el préstamo
-      fecha_inicio: req.body.fecha_inicio,
-      fecha_devolucion: req.body.fecha_devolucion
+      libro: libro,
+      fecha_inicio: fechaInicio,
+      fecha_devolucion: fechaDevolucion
     });
 
     await nuevoPrestamo.save();
@@ -34,8 +40,6 @@ router.post("/",
     console.error(error);
     res.status(500).send("Hubo un error al procesar la solicitud");
   }
-});
-
-
+}));
 
 module.exports = router;
