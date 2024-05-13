@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { Prestamo, validatePrestamo } = require('../models/prestamo');
+const { Prestamo, validator} = require('../models/prestamo');
+const validate = require('../middleware/validate');
 const asyncHandler = require("../middleware/asyncHandler");
 const isValidObjectId = require('../middleware/IsValidObjectId');
 const axios = require('axios'); 

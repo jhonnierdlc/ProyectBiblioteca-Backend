@@ -24,7 +24,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use('/api/libro', rutalibro);
 app.use('/api/prestamo', rutaprestamo);
-app.use('/api/multa', rutaprestamo);
+app.use('/api/multa', rutaMulta);
 //listenin on port
 
 const port = process.env.PORT || 8080;
