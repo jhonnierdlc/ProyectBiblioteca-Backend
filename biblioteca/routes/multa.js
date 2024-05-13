@@ -4,15 +4,35 @@ const {Multa, validator} = require('../models/multa');
 const validate = require('../middleware/validate');
 const isValidObjectId = require('../middleware/IsValidObjectId');
 const asyncHandler = require("../middleware/asyncHandler");
+const axios = require('axios'); 
 
 //Crear Multa
-router.post("/",
- validate(validator), 
- asyncHandler(async(req,res)=>{
-    await Multa(req.body).save();
-    res.status(200).send("Multa Creado Exitosamente");
- })
-);
+router.post("/", asyncHandler(async (req, res) => {
+    try {
+      const clientetId = req.body.clientetId;
+  
+      // Realiza una solicitud HTTP para obtener la información del libro por su ID
+      const response = await axios.get(`http://localhost:8080/api/client/${clientetId}`);
+      const cliente = response.data;
+  
+      if (!cliente) {
+        return res.status(400).send("El cliente especificado no existe");
+      }
+  
+      const nuevoMulta = new Multa({
+        libro: req.body.libro,
+        cliente: cliente,
+       
+      });
+  
+      await nuevoMulta.save();
+  
+      res.status(200).send("Multa creado exitosamente");
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Hubo un error al procesar la solicitud");
+    }
+  }));
 
 //Obtener Multa
 router.get("/",
