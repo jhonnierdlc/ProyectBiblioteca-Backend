@@ -33,6 +33,52 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Agrega tus otras rutas aquí...
+router.get("/:id", asyncHandler(async (req, res) => {
+  try {
+      const multaId = req.params.id;
+
+      // Buscar la multa por su ID
+      const multa = await modeloMulta.findById(multaId);
+
+      if (!multa) {
+          return res.status(404).send("Multa no encontrada");
+      }
+
+      res.status(200).json(multa);
+  } catch (error) {
+      console.error(error);
+      res.status(500).send("Hubo un error al procesar la solicitud");
+  }
+}));
+
+router.put("/:id", asyncHandler(async (req, res) => {
+  try {
+      const multaId = req.params.id;
+      const { libro, cliente, descripcion, precio } = req.body;
+
+      // Actualizar la multa por su ID
+      await modeloMulta.findByIdAndUpdate(multaId, { libro, cliente, descripcion, precio });
+
+      res.status(200).send("Multa actualizada exitosamente");
+  } catch (error) {
+      console.error(error);
+      res.status(500).send("Hubo un error al procesar la solicitud");
+  }
+}));
+
+router.delete("/:id", asyncHandler(async (req, res) => {
+  try {
+      const multaId = req.params.id;
+      
+      // Buscar y eliminar la multa por su ID
+      await modeloMulta.findByIdAndDelete(multaId);
+
+      res.status(200).send("Multa eliminada exitosamente");
+  } catch (error) {
+      console.error(error);
+      res.status(500).send("Hubo un error al procesar la solicitud");
+  }
+}));
+
 
 module.exports = router;
