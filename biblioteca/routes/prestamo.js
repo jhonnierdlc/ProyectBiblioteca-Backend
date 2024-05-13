@@ -42,4 +42,33 @@ router.post("/", asyncHandler(async (req, res) => {
   }
 }));
 
+//Editar
+router.put(
+  "/:id",
+  [isValidObjectId, validate(validator)],
+  asyncHandler(async (req, res) => {
+      await Prestamo.findByIdAndUpdate({ _id: req.params.id }, req.body);
+      res.status(200).send("Prestamo Editado Correctamente")
+  })
+)
+
+//Eliminar
+router.delete(
+  "/:id",
+  isValidObjectId,
+  asyncHandler(async (req,res) => {
+      await Prestamo.findByIdAndDelete(req.params.id);
+      res.status(200).send("Prestamo Elimindo Correctamente")
+  })
+)
+
+//consultar
+router.get("/:id",
+isValidObjectId,
+asyncHandler(async (req, res) => {
+    const prestamo = await Prestamo.findById(req.params.id);
+    res.send(prestamo);
+})
+)
+
 module.exports = router;
