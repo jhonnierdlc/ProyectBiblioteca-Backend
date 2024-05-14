@@ -72,4 +72,10 @@ asyncHandler(async (req, res) => {
 })
 )
 
+router.get("/",
+asyncHandler(async(req,res) => {
+    const prestamo = await Prestamo.find();
+    res.send(prestamo)
+})
+)
 module.exports = router;
