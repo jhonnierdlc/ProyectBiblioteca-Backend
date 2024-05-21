@@ -59,7 +59,7 @@ router.delete(
   isValidObjectId,
   asyncHandler(async (req,res) => {
       await Prestamo.findByIdAndDelete(req.params.id);
-      res.status(200).send("Prestamo Elimindo Correctamente")
+      res.status(200).send("Prestamo eliminado correctamente");
   })
 )
 

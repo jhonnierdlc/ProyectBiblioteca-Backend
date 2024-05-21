@@ -1,0 +1,14 @@
+// historialMultaModel.js
+const mongoose = require("mongoose");
+
+const historialMultaSchema = new mongoose.Schema({
+  libro: { type: String, required: true },
+  cliente: { type: Object, required: true },
+  descripcion: { type: String, required: true },
+  precio: { type: String, required: true },
+  fecha_eliminacion: { type: Date, required: true, default: Date.now }
+});
+
+const HistorialMulta = mongoose.model("HistorialMulta", historialMultaSchema);
+
+module.exports = HistorialMulta;
