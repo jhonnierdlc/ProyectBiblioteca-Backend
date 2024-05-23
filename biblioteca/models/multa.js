@@ -7,6 +7,7 @@ const schemaMulta = new mongoose.Schema({
     cliente:{ type: Object, required: true },
     descripcion:  { type: String, required: true },
     precio:  { type: String, required: true },
+    estado:  { type: String, required: true },
    
 });
 
@@ -16,7 +17,8 @@ const validateMulta = (data) => {
 	const schema = Joi.object({
         libro: Joi.string().required(), 
         descripcion: Joi.string().required(),
-        precio: Joi.string().required()
+        precio: Joi.string().required(),
+        estado: Joi.string().required()
 	});
 	return schema.validate(data);
 };

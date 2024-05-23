@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { Multa, validateMulta } = require('../models/multa');
-const { historialMulta } = require('../models/historialMulta');
-
 const asyncHandler = require("../middleware/asyncHandler");
 const isValidObjectId = require('../middleware/IsValidObjectId');
 const axios = require('axios'); // Importa axios para realizar solicitudes HTTP
@@ -19,11 +17,14 @@ router.post("/", async (req, res) => {
       return res.status(400).send("El cliente especificado no existe");
     }
 
+    const estado = 'Activo'
+
     const nuevaMulta = new Multa({
       libro: req.body.libro,
       cliente: cliente,
       descripcion: req.body.descripcion,
       precio: req.body.precio,
+      estado : estado,
     });
 
     await nuevaMulta.save();
@@ -68,31 +69,14 @@ router.put("/:id", asyncHandler(async (req, res) => {
   }
 }));
 
-router.delete("/:id", asyncHandler(async (req, res) => {
-  try {
-      const multaId = req.params.id;
-      
-      // Buscar y eliminar la multa por su ID
-      const multa = await Multa.findById(multaId);
-    if (!multa) {
-      return res.status(404).send("Multa no encontrada");
-    }
-
-    const historialMulta = new HistorialMulta({
-      libro: multa.libro,
-      cliente: multa.cliente,
-      descripcion: multa.descripcion,
-      precio: multa.precio
-    });
-
-    await historialMulta.save();
-    await Multa.findByIdAndDelete(multaId);
-    res.status(200).send("Multa eliminada exitosamente");
-  } catch (error) {
-      console.error(error);
-      res.status(500).send("Hubo un error al procesar la solicitud");
-  }
-}));
+router.delete(
+  "/:id",
+  isValidObjectId,
+  asyncHandler(async (req,res) => {
+      await Multa.findByIdAndDelete(req.params.id);
+      res.status(200).send("multa Elimindo Correctamente")
+  })
+)
 
 
 module.exports = router;

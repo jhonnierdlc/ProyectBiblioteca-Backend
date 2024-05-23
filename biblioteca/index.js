@@ -9,7 +9,6 @@ const clientRoutes=require("./routes/client");
 const rutalibro=require("./routes/libro");
 const rutaprestamo=require("./routes/prestamo");
 const rutaMulta=require("./routes/multa");
-const rutahistorialPrestamo= require("./routes/historialPrestamos")
 //database
 connection()
 
@@ -26,7 +25,6 @@ app.use("/api/auth", authRoutes);
 app.use('/api/libro', rutalibro);
 app.use('/api/prestamo', rutaprestamo);
 app.use('/api/multa', rutaMulta);
-app.use('/api/historialPrestamos', rutahistorialPrestamo);
 //listenin on port
 
 const port = process.env.PORT || 8080;
