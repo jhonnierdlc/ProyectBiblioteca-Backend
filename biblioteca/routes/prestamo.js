@@ -1,6 +1,7 @@
+// routes/prestamos.js
 const express = require('express');
 const router = express.Router();
-const { Prestamo, validator} = require('../models/prestamo');
+const { Prestamo, validatePrestamo } = require('../models/prestamo'); // Cambiar de validator a validatePrestamo
 const validate = require('../middleware/validate');
 const asyncHandler = require("../middleware/asyncHandler");
 const isValidObjectId = require('../middleware/IsValidObjectId');
@@ -43,17 +44,17 @@ router.post("/", asyncHandler(async (req, res) => {
   }
 }));
 
-//Editar
+// Editar
 router.put(
   "/:id",
-  [isValidObjectId, validate(validator)],
+  [isValidObjectId, validate(validatePrestamo)], // Cambiado aquí
   asyncHandler(async (req, res) => {
       await Prestamo.findByIdAndUpdate({ _id: req.params.id }, req.body);
       res.status(200).send("Prestamo Editado Correctamente")
   })
-)
+);
 
-//Eliminar
+// Eliminar
 router.delete(
   "/:id",
   isValidObjectId,
@@ -61,21 +62,21 @@ router.delete(
       await Prestamo.findByIdAndDelete(req.params.id);
       res.status(200).send("Prestamo eliminado correctamente");
   })
-)
+);
 
-//consultar
+// Consultar
 router.get("/:id",
 isValidObjectId,
 asyncHandler(async (req, res) => {
     const prestamo = await Prestamo.findById(req.params.id);
     res.send(prestamo);
 })
-)
+);
 
 router.get("/",
 asyncHandler(async(req,res) => {
     const prestamo = await Prestamo.find();
-    res.send(prestamo)
+    res.send(prestamo);
 })
-)
+);
 module.exports = router;

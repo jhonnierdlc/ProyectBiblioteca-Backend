@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
@@ -17,8 +18,9 @@ const validatePrestamo = (data) => {
         cedula: Joi.string().required(),
         nombre: Joi.string().required(),
         celular: Joi.string().required(),
+        libro: Joi.object().required(), // Añadir validación para el libro
         fecha_inicio: Joi.date().required(),
-        fecha_devolucion: Joi.date().required()  
+        fecha_devolucion: Joi.date().required()
     });
     return schema.validate(data);
 };
