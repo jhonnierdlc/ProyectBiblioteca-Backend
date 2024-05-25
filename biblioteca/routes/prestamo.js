@@ -6,6 +6,7 @@ const validate = require('../middleware/validate');
 const asyncHandler = require("../middleware/asyncHandler");
 const isValidObjectId = require('../middleware/IsValidObjectId');
 const axios = require('axios'); 
+const { validateMulta } = require('../models/multa');
 
 router.post("/", asyncHandler(async (req, res) => {
   try {

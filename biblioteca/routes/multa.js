@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Multa, validateMulta } = require('../models/multa');
+const validate = require('../middleware/validate');
 const asyncHandler = require("../middleware/asyncHandler");
 const isValidObjectId = require('../middleware/IsValidObjectId');
 const axios = require('axios'); // Importa axios para realizar solicitudes HTTP
@@ -36,38 +37,23 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/:id", asyncHandler(async (req, res) => {
-  try {
-      const multaId = req.params.id;
+// Consultar
+router.get("/:id",
+isValidObjectId,
+asyncHandler(async (req, res) => {
+    const multa = await Multa.findById(req.params.id);
+    res.send(multa);
+})
+);
 
-      // Buscar la multa por su ID
-      const multa = await modeloMulta.findById(multaId);
-
-      if (!multa) {
-          return res.status(404).send("Multa no encontrada");
-      }
-
-      res.status(200).json(multa);
-  } catch (error) {
-      console.error(error);
-      res.status(500).send("Hubo un error al procesar la solicitud");
-  }
-}));
-
-router.put("/:id", asyncHandler(async (req, res) => {
-  try {
-      const multaId = req.params.id;
-      const { libro, cliente, descripcion, precio } = req.body;
-
-      // Actualizar la multa por su ID
-      await modeloMulta.findByIdAndUpdate(multaId, { libro, cliente, descripcion, precio });
-
-      res.status(200).send("Multa actualizada exitosamente");
-  } catch (error) {
-      console.error(error);
-      res.status(500).send("Hubo un error al procesar la solicitud");
-  }
-}));
+router.put(
+  "/:id",
+  [isValidObjectId, validate(validateMulta)], // Cambiado aquí
+  asyncHandler(async (req, res) => {
+      await Multa.findByIdAndUpdate({ _id: req.params.id }, req.body);
+      res.status(200).send("Multa Editado Correctamente")
+  })
+);
 
 router.delete(
   "/:id",
@@ -78,5 +64,13 @@ router.delete(
   })
 )
 
+router.get("/",
+asyncHandler(async(req,res) => {
+    const multa = await Multa.find();
+    res.send(multa);
+})
+);
 
-module.exports = router;
+module.exports = router;
+
+

@@ -14,13 +14,14 @@ const schemaMulta = new mongoose.Schema({
 const Multa = mongoose.model("Multa", schemaMulta);
 
 const validateMulta = (data) => {
-	const schema = Joi.object({
-        libro: Joi.string().required(), 
+    const schema = Joi.object({
+        libro: Joi.string().required(),
+        cliente: Joi.object().required(),
         descripcion: Joi.string().required(),
         precio: Joi.string().required(),
         estado: Joi.string().required()
-	});
-	return schema.validate(data);
+    });
+    return schema.validate(data);
 };
 
 module.exports = { Multa, validateMulta };
