@@ -69,7 +69,26 @@ asyncHandler(async(req,res) => {
     const multa = await Multa.find();
     res.send(multa);
 })
-);
+)
+
+router.put(
+  "/inactivar/:id",
+  isValidObjectId,
+  asyncHandler(async (req, res) => {
+    const multaActualizada = await Multa.findByIdAndUpdate(
+      req.params.id,
+      { estado: 'Inactivo' },
+      { new: true } // Retorna el documento actualizado
+    );
+
+    if (!multaActualizada) return res.status(404).send("Multa no encontrada");
+
+    res.status(200).send("Estado de la multa actualizado a Inactivo");
+  })
+)
+
+
+
 
 module.exports = router;
 
