@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const schemaHistorialPrestamo = new mongoose.Schema({
     prestamo: {type: Object, required: true},//id, fechainicio, fechadevolucion
@@ -9,4 +10,11 @@ const schemaHistorialPrestamo = new mongoose.Schema({
 
 const HistorialPrestamo = mongoose.model("HistorialPrestamo",schemaHistorialPrestamo);
 
-module.exports = HistorialPrestamo;
+const validateHistorialPrestamo = (data)=>{
+    const schema = Joi.object({
+
+    });
+    return schema.validate(data);
+}
+
+module.exports = {HistorialPrestamo, validateHistorialPrestamo};

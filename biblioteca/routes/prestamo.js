@@ -33,7 +33,8 @@ router.post("/", asyncHandler(async (req, res) => {
       celular: req.body.celular,
       libro: libro,
       fecha_inicio: fechaInicio,
-      fecha_devolucion: fechaDevolucion
+      fecha_devolucion: fechaDevolucion,
+      estado_prestamo: 'pendiente'
     });
 
     await nuevoPrestamo.save();
